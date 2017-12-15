@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { MovieProvider } from '../../providers/movie/movie';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+import { Loading } from 'ionic-angular/components/loading/loading';
 
 /**
  * Generated class for the FeedPage page.
@@ -12,8 +15,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @Component({
   selector: 'page-feed',
   templateUrl: 'feed.html',
+  providers: [
+    MovieProvider
+  ]
 })
 export class FeedPage {
+
+  public lista_filmes = new Array<any>();
+  public loader: Loading;
+  public refresher;
+  public isRefreshing: boolean = false;
+
   public nome_usuario: string = "Elton Bezerra";
   public objeto_feed = {
     titulo: "IOTA a moedinha das iot's",
@@ -26,12 +38,51 @@ export class FeedPage {
     time_comment: "11h ago"
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  //Injeção de dependências
+  constructor(public navCtrl: NavController, public navParams: NavParams, private movieProvider: MovieProvider, public loadingCtrl: LoadingController) {}
+
+  abrirLoader() {
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando filmes.."
+    });
+    this.loader.present();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad FeedPage');
-    console.log('call somaDoisNumeros');
+
+  fecharLoader(){
+    this.loader.dismiss();
   }
 
+  ionViewDidEnter() {
+    this.carregarFilmes();
+  }
+
+  doRefresh(refresher) {
+    this.refresher = refresher;
+    this.isRefreshing = true;
+    this.carregarFilmes();
+  }
+
+  carregarFilmes(){
+    this.abrirLoader();
+    this.movieProvider.getLatestMovies().subscribe(
+        data => {
+          const response = (data as any);
+          const objeto_retorno = JSON.parse(response._body);
+          this.lista_filmes = objeto_retorno.results;
+          console.log(objeto_retorno);
+          this.fecharLoader();
+          if(this.isRefreshing){
+            this.refresher.complete();
+            this.isRefreshing = false;
+          }
+        }), error => {
+          console.log(error);
+          this.fecharLoader();
+          if(this.isRefreshing){
+            this.refresher.complete();
+            this.isRefreshing = false;
+          }
+        }
+  }
 }
