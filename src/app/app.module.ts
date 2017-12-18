@@ -10,11 +10,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FeedPageModule } from '../pages/feed/feed.module';
 import { IntroPageModule } from '../pages/intro/intro.module';
-import { HttpModule} from "@angular/http"
-import { ConfiguracoesPageModule} from "../pages/configuracoes/configuracoes.module"
-import { SobrePageModule } from "../pages/sobre/sobre.module"
-import { PerfilPageModule} from "../pages/perfil/perfil.module"
-import { FilmeDetalhesPageModule } from "../pages/filme-detalhes/filme-detalhes.module"
+import { HttpModule} from "@angular/http";
+import { ConfiguracoesPageModule} from "../pages/configuracoes/configuracoes.module";
+import { SobrePageModule } from "../pages/sobre/sobre.module";
+import { PerfilPageModule} from "../pages/perfil/perfil.module";
+import { FilmeDetalhesPageModule } from "../pages/filme-detalhes/filme-detalhes.module";
+import { AtletasPageModule } from "../pages/atletas/atletas.module";
+import { CartolaProvider } from '../providers/cartola/cartola';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { FilmeDetalhesPageModule } from "../pages/filme-detalhes/filme-detalhes.
     ConfiguracoesPageModule,
     SobrePageModule,
     PerfilPageModule,
-    FilmeDetalhesPageModule
+    FilmeDetalhesPageModule,
+    AtletasPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -41,7 +44,8 @@ import { FilmeDetalhesPageModule } from "../pages/filme-detalhes/filme-detalhes.
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}    
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    CartolaProvider    
   ]
 })
 export class AppModule {}
