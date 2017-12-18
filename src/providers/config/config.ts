@@ -2,11 +2,6 @@ import { Injectable } from '@angular/core';
 const CONFIG_KEY_NAME = "config";
 @Injectable()
 export class ConfigProvider {
-  private config = {
-    showSlide: false,
-    name: "",
-    username: ""
-  }
   constructor() { } 
 
   getConfigData(): any{

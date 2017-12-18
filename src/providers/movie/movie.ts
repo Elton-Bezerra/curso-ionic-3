@@ -16,9 +16,13 @@ export class MovieProvider {
     console.log('Hello MoovieProvider Provider'); 
   }
   
-  getLatestMovies() {
-    return this.http.get(this.baseApiPath + "/movie/popular?api_key=" + this.getApiKey());
+  getLatestMovies(page = 1) {
+    return this.http.get(this.baseApiPath + `/movie/popular?page=${page}&api_key=` + this.getApiKey());
   }  
+
+  getMovieDetail(filme_id) {
+    return this.http.get(this.baseApiPath + `/movie/${filme_id}?api_key=` + this.getApiKey());
+  }
 
   getApiKey():String{
     return "7e95f49d7fffd418220c37bd9d7b9ab7";
